@@ -39,7 +39,7 @@ class Glitch {
     this.scatImgs = [];
     this.throughFlag = true;
     this.copyData = new Uint8ClampedArray(this.imgOrigin.pixels);
-    this.scale = 0.7; // 画像の表示スケール（70%のサイズ）
+    this.scale = 0.5; // 画像の表示スケール（50%のサイズ）
 
     // flow line
     for (let i = 0; i < 1; i++) {
