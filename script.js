@@ -46,8 +46,8 @@ class Glitch {
       let o = {
         pixels: null,
         t1: floor(random(0, 1000)),
-        speed: floor(random(4, 24)),
-        randX: floor(random(24, 80)) };
+        speed: floor(random(8, 32)), // Flow lineの速度を調整する値（大きいほど速い）
+        randX: floor(random(12, 40)) }; // Flow lineの強度を調整する値（大きいほど強い）
 
       this.flowLineImgs.push(o);
     }
@@ -134,7 +134,7 @@ class Glitch {
     rangeH = srcImg.height;
     rangeMin = floor(random(0, rangeH));
     rangeMax = rangeMin + floor(random(1, rangeH - rangeMin));
-    offsetX = this.channelLen * floor(random(-40, 40));
+    offsetX = this.channelLen * floor(random(-20, 20)); // Shift lineのオフセットを調整する値（絶対値が大きいほど強い）
 
     for (let y = 0; y < srcImg.height; y++) {
       if (y > rangeMin && y < rangeMax) {
@@ -167,7 +167,7 @@ class Glitch {
     let destPixels;
     let range;
 
-    range = 16;
+    range = 8; // RGBシフトの強度を調整する値（大きいほど強い）
     destPixels = new Uint8ClampedArray(srcImg.pixels);
     randR = (floor(random(-range, range)) * srcImg.width + floor(random(-range, range))) * this.channelLen;
     randG = (floor(random(-range, range)) * srcImg.width + floor(random(-range, range))) * this.channelLen;
@@ -219,11 +219,11 @@ class Glitch {
 
     // sometimes pass without effect processing
     let n = floor(random(100));
-    if (n > 75 && this.throughFlag) {
+    if (n > 85 && this.throughFlag) { // エフェクトなしの発生確率を調整する値（大きいほど頻繁、85 = 15%の確率）
       this.throughFlag = false;
       setTimeout(() => {
         this.throughFlag = true;
-      }, floor(random(40, 400)));
+      }, floor(random(300, 1000))); // エフェクトなしの継続時間を調整する値（ミリ秒、大きいほど長い）
     }
     if (!this.throughFlag) {
       push();
@@ -245,7 +245,7 @@ class Glitch {
 
     // shift line
     this.shiftLineImgs.forEach((v, i, arr) => {
-      if (floor(random(100)) > 50) {
+      if (floor(random(100)) > 70) { // Shift lineの発生確率を調整する値（大きいほど頻度が低い、70 = 30%の確率）
         arr[i] = this.shiftLine(this.imgOrigin);
         this.replaceData(this.imgOrigin, arr[i]);
       } else {
@@ -257,7 +257,7 @@ class Glitch {
 
     // shift rgb
     this.shiftRGBs.forEach((v, i, arr) => {
-      if (floor(random(100)) > 65) {
+      if (floor(random(100)) > 85) { // Shift RGBの発生確率を調整する値（大きいほど頻度が低い、85 = 15%の確率）
         arr[i] = this.shiftRGB(this.imgOrigin);
         this.replaceData(this.imgOrigin, arr[i]);
       }
@@ -276,7 +276,7 @@ class Glitch {
       let scaledWidth = this.imgOrigin.width * this.scale;
       let scaledHeight = this.imgOrigin.height * this.scale;
       translate((width - scaledWidth) / 2, (height - scaledHeight) / 2);
-      if (floor(random(100)) > 80) {
+      if (floor(random(100)) > 92) { // Scat imageの発生確率を調整する値（大きいほど頻度が低い、92 = 8%の確率）
         obj.x = floor(random(-scaledWidth * 0.3, scaledWidth * 0.7));
         obj.y = floor(random(-scaledHeight * 0.1, scaledHeight));
         obj.img = this.getRandomRectImg(this.imgOrigin);
