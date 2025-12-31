@@ -39,7 +39,12 @@ class Glitch {
     this.scatImgs = [];
     this.throughFlag = true;
     this.copyData = new Uint8ClampedArray(this.imgOrigin.pixels);
-    this.scale = 0.5; // 画像の表示スケール（50%のサイズ）
+    // ウィンドウサイズに応じて自動的にスケールを計算
+    const maxWidth = width * 0.9; // ウィンドウ幅の90%
+    const maxHeight = height * 0.9; // ウィンドウ高さの90%
+    const scaleX = maxWidth / this.imgOrigin.width;
+    const scaleY = maxHeight / this.imgOrigin.height;
+    this.scale = min(scaleX, scaleY, 1.0); // 小さい方を採用し、最大1.0まで
 
     // flow line
     for (let i = 0; i < 1; i++) {
